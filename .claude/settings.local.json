@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(pg_config --version)",
+      "Bash(psql --version)",
+      "Bash(cmd /c \"psql --version\")",
+      "Bash(cmd /c \"where psql\")",
+      "Bash(cmd /c \"sc query postgresql*\")",
+      "Bash(/c/Program Files/PostgreSQL/18/bin/psql.exe:*)",
+      "Bash(PGPASSWORD=\"\" \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -c \"\\\\l\")",
+      "Bash(kill %1)",
+      "Bash(PGPASSWORD=\"ADMIN\" /c/Program Files/PostgreSQL/18/bin/psql.exe:*)",
+      "Bash(npm run:*)",
+      "Bash(cmd /c \"start \\\\\"EduMentor Backend\\\\\" cmd /k \\\\\"cd /d D:\\\\\\\\Diploms\\\\\\\\2025-2026\\\\\\\\Aisha\\\\\\\\Project\\\\\\\\server && npm run dev\\\\\"\")",
+      "Bash(cmd /c \"start \\\\\"EduMentor Frontend\\\\\" cmd /k \\\\\"cd /d D:\\\\\\\\Diploms\\\\\\\\2025-2026\\\\\\\\Aisha\\\\\\\\Project\\\\\\\\client && npm run dev\\\\\"\")",
+      "Bash(powershell -Command \"Start-Process cmd -ArgumentList '/k cd /d D:\\\\Diploms\\\\2025-2026\\\\Aisha\\\\Project\\\\server && npm run dev'\")",
+      "Bash(powershell -Command \"Start-Process cmd -ArgumentList '/k cd /d D:\\\\Diploms\\\\2025-2026\\\\Aisha\\\\Project\\\\client && npm run dev'\")",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(powershell:*)"
+    ]
+  }
+}

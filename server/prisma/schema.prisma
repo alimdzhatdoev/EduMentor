@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  TUTOR
+  STUDENT
+}
+
+enum ApplicationStatus {
+  NEW
+  IN_PROGRESS
+  APPROVED
+  REJECTED
+}
+
+enum LessonStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+enum LessonFormat {
+  ONLINE
+  OFFLINE
+}
+
+enum HomeworkStatus {
+  ASSIGNED
+  SUBMITTED
+  REVIEWED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+enum MaterialType {
+  DOCUMENT
+  VIDEO
+  LINK
+  IMAGE
+}
+
+model User {
+  id           String    @id @default(cuid())
+  fullName     String
+  email        String    @unique
+  passwordHash String
+  phone        String?
+  role         Role      @default(STUDENT)
+  avatarUrl    String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  student      Student?
+}
+
+model Application {
+  id            String            @id @default(cuid())
+  name          String
+  phone         String
+  email         String?
+  subject       String
+  level         String
+  preferredTime String?
+  message       String?
+  status        ApplicationStatus @default(NEW)
+  createdAt     DateTime          @default(now())
+}
+
+model Student {
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   String
+  level     String
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  lessons   Lesson[]
+  homework  Homework[]
+  materials Material[]
+  payments  Payment[]
+}
+
+model Lesson {
+  id          String       @id @default(cuid())
+  studentId   String
+  student     Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  date        DateTime
+  startTime   String
+  endTime     String
+  format      LessonFormat @default(ONLINE)
+  status      LessonStatus @default(SCHEDULED)
+  price       Float        @default(0)
+  comment     String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  homework    Homework[]
+}
+
+model Homework {
+  id          String         @id @default(cuid())
+  studentId   String
+  student     Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lessonId    String?
+  lesson      Lesson?        @relation(fields: [lessonId], references: [id])
+  title       String
+  description String?
+  dueDate     DateTime?
+  status      HomeworkStatus @default(ASSIGNED)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model Material {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  type        MaterialType @default(DOCUMENT)
+  url         String?
+  fileUrl     String?
+  studentId   String?
+  student     Student?     @relation(fields: [studentId], references: [id])
+  subject     String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  studentId   String
+  student     Student       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  amount      Float
+  paymentDate DateTime?
+  status      PaymentStatus @default(PENDING)
+  comment     String?
+  createdAt   DateTime      @default(now())
+}
