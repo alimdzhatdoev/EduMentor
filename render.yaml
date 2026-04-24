@@ -2,7 +2,7 @@ services:
   - type: web
     name: edumentor
     runtime: node
-    buildCommand: npm install --prefix client && npm run build --prefix client && npm install --prefix server && npm run build --prefix server
+    buildCommand: npm install --include=dev --prefix client && npm run build --prefix client && npm install --include=dev --prefix server && npm run build --prefix server
     startCommand: cd server && npx prisma db push && node dist/index.js
     envVars:
       - key: NODE_ENV
